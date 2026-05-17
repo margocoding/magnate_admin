@@ -10,6 +10,8 @@ export const mockGiveaways: Giveaway[] = [
     fundAmount: 50000,
     status: 'active',
     createdAt: new Date('2025-01-01'),
+    telegramChannel: 't.me/newyear_channel',
+    isActive: true,
   },
   {
     id: '2',
@@ -20,6 +22,8 @@ export const mockGiveaways: Giveaway[] = [
     fundAmount: 100000,
     status: 'finished',
     createdAt: new Date('2025-02-15'),
+    telegramChannel: 't.me/spring_marathon',
+    isActive: false,
   },
   {
     id: '3',
@@ -30,6 +34,8 @@ export const mockGiveaways: Giveaway[] = [
     fundAmount: 150000,
     status: 'active',
     createdAt: new Date('2025-03-01'),
+    telegramChannel: 't.me/vip_subscribers',
+    isActive: true,
   },
   {
     id: '4',
@@ -40,6 +46,8 @@ export const mockGiveaways: Giveaway[] = [
     fundAmount: 7500,
     status: 'draft',
     createdAt: new Date('2025-03-10'),
+    telegramChannel: 't.me/quick_start',
+    isActive: false,
   },
   {
     id: '5',
@@ -50,6 +58,8 @@ export const mockGiveaways: Giveaway[] = [
     fundAmount: 750000,
     status: 'active',
     createdAt: new Date('2025-03-05'),
+    telegramChannel: 't.me/mega_giveaway',
+    isActive: true,
   },
 ];
 

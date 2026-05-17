@@ -9,6 +9,16 @@ export interface Giveaway {
   fundAmount: number;
   status: GiveawayStatus;
   createdAt: Date;
+  telegramChannel?: string;
+  isActive: boolean;
+}
+
+export interface GiveawayFormData {
+  title: string;
+  prizeAmount: number;
+  endTime: Date;
+  telegramChannel: string;
+  isActive: boolean;
 }
 
 export interface Participant {
