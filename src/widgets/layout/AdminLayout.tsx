@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  LayoutDashboard,
   Gift,
-  Users,
-  Settings,
   LogOut,
   Menu,
   X,
@@ -26,10 +23,7 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { id: "dashboard", label: "Обзор", icon: LayoutDashboard },
   { id: "giveaways", label: "Розыгрыши", icon: Gift, badge: 3 },
-  { id: "participants", label: "Участники", icon: Users },
-  { id: "settings", label: "Настройки", icon: Settings },
 ];
 
 export const AdminLayout = ({ children }: AdminLayoutProps) => {

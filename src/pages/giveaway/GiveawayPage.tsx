@@ -66,7 +66,7 @@ export const GiveawayPage = () => {
               <span>До окончания:</span>
             </div>
 
-            <CountdownTimer endTime={activeGiveaway.endTime} large />
+            <CountdownTimer endTime={activeGiveaway.endTime} />
 
             <div className="grid grid-cols-2 gap-4 w-full pt-6 border-t border-white/10">
               <div className="flex items-center gap-3">
