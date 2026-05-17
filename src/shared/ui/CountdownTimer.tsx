@@ -5,9 +5,10 @@ import { Clock } from 'lucide-react';
 interface CountdownTimerProps {
   endTime: Date;
   onExpire?: () => void;
+  large?: boolean;
 }
 
-export const CountdownTimer = ({ endTime, onExpire }: CountdownTimerProps) => {
+export const CountdownTimer = ({ endTime, onExpire, large = false }: CountdownTimerProps) => {
   const [timeLeft, setTimeLeft] = useState(() => getTimeRemaining(endTime));
 
   useEffect(() => {
@@ -35,23 +36,23 @@ export const CountdownTimer = ({ endTime, onExpire }: CountdownTimerProps) => {
   const formatUnit = (value: number) => String(value).padStart(2, '0');
 
   return (
-    <div className="flex items-center gap-3">
-      <Clock size={16} className="text-violet-400" />
-      <div className="flex gap-1.5 text-sm font-mono">
+    <div className={`flex items-center gap-3 ${large ? 'scale-150' : ''}`}>
+      <Clock size={large ? 24 : 16} className="text-violet-400" />
+      <div className={`flex gap-1.5 ${large ? 'text-lg' : 'text-sm'} font-mono`}>
         {timeLeft.days > 0 && (
           <>
-            <span className="px-2 py-1 bg-violet-500/20 rounded-lg text-violet-300">
+            <span className={`px-2 py-1 bg-violet-500/20 rounded-lg text-violet-300 ${large ? 'text-xl' : ''}`}>
               {formatUnit(timeLeft.days)}д
             </span>
           </>
         )}
-        <span className="px-2 py-1 bg-violet-500/20 rounded-lg text-violet-300">
+        <span className={`px-2 py-1 bg-violet-500/20 rounded-lg text-violet-300 ${large ? 'text-xl' : ''}`}>
           {formatUnit(timeLeft.hours)}ч
         </span>
-        <span className="px-2 py-1 bg-violet-500/20 rounded-lg text-violet-300">
+        <span className={`px-2 py-1 bg-violet-500/20 rounded-lg text-violet-300 ${large ? 'text-xl' : ''}`}>
           {formatUnit(timeLeft.minutes)}м
         </span>
-        <span className="px-2 py-1 bg-fuchsia-500/20 rounded-lg text-fuchsia-300">
+        <span className={`px-2 py-1 bg-fuchsia-500/20 rounded-lg text-fuchsia-300 ${large ? 'text-xl' : ''}`}>
           {formatUnit(timeLeft.seconds)}с
         </span>
       </div>

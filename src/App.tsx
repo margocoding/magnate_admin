@@ -1,3 +1,4 @@
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { AdminLayout } from "./widgets/layout/AdminLayout";
 import { GiveawaysPage } from "./pages/admin/GiveawaysPage";
@@ -7,28 +8,13 @@ import { GiveawayPage } from "./pages/giveaway/GiveawayPage";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentRoute, setCurrentRoute] = useState<string>("admin");
   
   useEffect(() => {
     // Проверка токена при загрузке
     const token = localStorage.getItem("auth_token");
-    const route = localStorage.getItem("current_route") || "admin";
     
     setIsAuthenticated(!!token);
-    setCurrentRoute(route);
     setIsLoading(false);
-    
-    // Обработчик для навигации на страницу розыгрыша
-    const handleRouteChange = (event: CustomEvent) => {
-      setCurrentRoute(event.detail.route);
-      localStorage.setItem("current_route", event.detail.route);
-    };
-    
-    window.addEventListener("route-change" as any, handleRouteChange as any);
-    
-    return () => {
-      window.removeEventListener("route-change" as any, handleRouteChange as any);
-    };
   }, []);
   
   if (isLoading) {
@@ -39,20 +25,36 @@ function App() {
     );
   }
   
-  if (!isAuthenticated) {
-    return <LoginPage />;
-  }
-  
-  // Рендер страницы розыгрыша (без админки)
-  if (currentRoute === "giveaway") {
-    return <GiveawayPage />;
-  }
-  
-  // Рендер админ-панели
   return (
-    <AdminLayout>
-      <GiveawaysPage />
-    </AdminLayout>
+    <Routes>
+      {/* Публичный маршрут - страница розыгрыша */}
+      <Route path="/giveaway/:id" element={<GiveawayPage />} />
+      
+      {/* Защищённые маршруты админки */}
+      <Route
+        path="/"
+        element={
+          isAuthenticated ? (
+            <AdminLayout>
+              <GiveawaysPage />
+            </AdminLayout>
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      
+      {/* Маршрут логина */}
+      <Route
+        path="/login"
+        element={
+          !isAuthenticated ? <LoginPage /> : <Navigate to="/" replace />
+        }
+      />
+      
+      {/* Fallback для неизвестных маршрутов */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
