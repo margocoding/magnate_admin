@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  LayoutDashboard,
   Gift,
-  Users,
-  Settings,
-  LogOut,
   Menu,
   X,
   Trophy,
@@ -13,6 +9,7 @@ import {
 import { GlassCard } from "@/shared/ui/GlassCard";
 import { Button } from "@/shared/ui/Button";
 import { GradientText } from "@/shared/ui/GradientText";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -22,24 +19,27 @@ type NavItem = {
   id: string;
   label: string;
   icon: React.ElementType;
-  badge?: number;
+  path: string;
 };
 
 const navItems: NavItem[] = [
-  { id: "dashboard", label: "Обзор", icon: LayoutDashboard },
-  { id: "giveaways", label: "Розыгрыши", icon: Gift, badge: 3 },
-  { id: "participants", label: "Участники", icon: Users },
-  { id: "settings", label: "Настройки", icon: Settings },
+  { id: "giveaways", label: "Розыгрыши", icon: Gift, path: "/" },
 ];
 
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const [activeNav, setActiveNav] = useState("giveaways");
+  const navigate = useNavigate();
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("auth_token");
     window.location.reload();
+  };
+
+  const handleNavClick = (path: string) => {
+    navigate(path);
+    setSidebarOpen(false);
   };
 
   return (
@@ -86,35 +86,30 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
           {/* Navigation */}
           <nav className="flex-1 space-y-2">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveNav(item.id);
-                  setSidebarOpen(false);
-                }}
-                className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group
-                  ${
-                    activeNav === item.id
-                      ? "bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 border border-violet-500/30 text-white"
-                      : "text-gray-400 hover:text-white hover:bg-white/5"
-                  }
-                `}
-              >
-                <div className="flex items-center gap-3">
-                  <item.icon
-                    size={20}
-                    className={`transition-colors ${activeNav === item.id ? "text-violet-400" : "group-hover:text-violet-400"}`}
-                  />
-                  <span className="font-medium">{item.label}</span>
-                </div>
-                {item.badge && (
-                  <span className="px-2 py-0.5 bg-violet-500 text-white text-xs font-semibold rounded-full">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.path)}
+                  className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group
+                    ${
+                      isActive
+                        ? "bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 border border-violet-500/30 text-white"
+                        : "text-gray-400 hover:text-white hover:bg-white/5"
+                    }
+                  `}
+                >
+                  <div className="flex items-center gap-3">
+                    <item.icon
+                      size={20}
+                      className={`transition-colors ${isActive ? "text-violet-400" : "group-hover:text-violet-400"}`}
+                    />
+                    <span className="font-medium">{item.label}</span>
+                  </div>
+                </button>
+              );
+            })}
           </nav>
 
           {/* Logout */}
@@ -124,7 +119,6 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
               className="w-full justify-start gap-3 text-red-400 hover:text-red-300 hover:bg-red-500/10"
               onClick={() => setShowLogoutModal(true)}
             >
-              <LogOut size={20} />
               Выйти
             </Button>
           </div>
@@ -176,7 +170,11 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
             >
               <GlassCard variant="accent" className="p-6 text-center">
                 <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
-                  <LogOut size={24} className="text-red-400" />
+                  <svg width={24} height={24} className="text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">
                   Выйти из системы?
