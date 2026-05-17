@@ -3,6 +3,7 @@ import { Plus, Sparkles } from "lucide-react";
 import { GlassCard, GradientText, Button } from "@/shared/ui";
 import { GiveawayCard } from "@/widgets/giveaway/GiveawayCard";
 import { ParticipantsModal } from "@/features/participants/ui/ParticipantsModal";
+import { GiveawayModal } from "@/features/giveaways/ui/GiveawayModal";
 import { mockGiveaways } from "@/features/participants/lib/mockData";
 import type { Giveaway } from "@/entities/giveaway";
 
@@ -10,15 +11,19 @@ export const GiveawaysPage = () => {
   const [selectedGiveaway, setSelectedGiveaway] = useState<Giveaway | null>(
     null,
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
+  const [isGiveawayModalOpen, setIsGiveawayModalOpen] = useState(false);
+  const [editingGiveaway, setEditingGiveaway] = useState<Giveaway | null>(null);
+  const [giveaways, setGiveaways] = useState<Giveaway[]>(mockGiveaways);
 
   const handleViewParticipants = (giveaway: Giveaway) => {
     setSelectedGiveaway(giveaway);
-    setIsModalOpen(true);
+    setIsParticipantsModalOpen(true);
   };
 
   const handleEdit = (giveaway: Giveaway) => {
-    console.log("Edit giveaway:", giveaway);
+    setEditingGiveaway(giveaway);
+    setIsGiveawayModalOpen(true);
   };
 
   const handleDelete = (giveaway: Giveaway) => {
@@ -26,7 +31,21 @@ export const GiveawaysPage = () => {
   };
 
   const handleCreate = () => {
-    console.log("Create new giveaway");
+    setEditingGiveaway(null);
+    setIsGiveawayModalOpen(true);
+  };
+
+  const handleGiveawaySuccess = (updatedGiveaway: Giveaway) => {
+    if (editingGiveaway) {
+      // Редактирование: обновляем элемент в списке
+      setGiveaways(prev => prev.map(g => g.id === updatedGiveaway.id ? updatedGiveaway : g));
+    } else {
+      // Создание: добавляем новый элемент в список
+      setGiveaways(prev => [updatedGiveaway, ...prev]);
+    }
+    
+    setIsGiveawayModalOpen(false);
+    setEditingGiveaway(null);
   };
 
   return (
@@ -70,22 +89,22 @@ export const GiveawaysPage = () => {
           {[
             {
               label: "Всего розыгрышей",
-              value: "5",
+              value: giveaways.length.toString(),
               color: "from-violet-400 to-purple-500",
             },
             {
               label: "Активных",
-              value: "3",
+              value: giveaways.filter(g => g.status === 'active').length.toString(),
               color: "from-green-400 to-emerald-500",
             },
             {
               label: "Участников",
-              value: "21,149",
+              value: giveaways.reduce((sum, g) => sum + g.participantCount, 0).toLocaleString(),
               color: "from-cyan-400 to-blue-500",
             },
             {
               label: "Призовой фонд",
-              value: "1,012,500 ₽",
+              value: `${(giveaways.reduce((sum, g) => sum + g.fundAmount, 0) / 1000).toFixed(0)}K ₽`,
               color: "from-yellow-400 to-orange-500",
             },
           ].map((stat) => (
@@ -102,7 +121,7 @@ export const GiveawaysPage = () => {
 
         {/* Giveaways Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockGiveaways.map((giveaway) => (
+          {giveaways.map((giveaway) => (
             <GiveawayCard
               key={giveaway.id}
               giveaway={giveaway}
@@ -123,12 +142,23 @@ export const GiveawaysPage = () => {
 
         {/* Participants Modal */}
         <ParticipantsModal
-          isOpen={isModalOpen}
+          isOpen={isParticipantsModalOpen}
           onClose={() => {
-            setIsModalOpen(false);
+            setIsParticipantsModalOpen(false);
             setSelectedGiveaway(null);
           }}
           giveaway={selectedGiveaway}
+        />
+
+        {/* Giveaway Create/Edit Modal */}
+        <GiveawayModal
+          isOpen={isGiveawayModalOpen}
+          onClose={() => {
+            setIsGiveawayModalOpen(false);
+            setEditingGiveaway(null);
+          }}
+          giveaway={editingGiveaway}
+          onSuccess={handleGiveawaySuccess}
         />
       </div>
     </div>
