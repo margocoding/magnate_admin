@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  LayoutDashboard, 
-  Gift, 
-  Users, 
-  Settings, 
-  LogOut, 
-  Menu, 
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  LayoutDashboard,
+  Gift,
+  Users,
+  Settings,
+  LogOut,
+  Menu,
   X,
-  Trophy
-} from 'lucide-react';
-import { GlassCard } from '@/shared/ui/GlassCard';
-import { Button } from '@/shared/ui/Button';
-import { GradientText } from '@/shared/ui/GradientText';
+  Trophy,
+} from "lucide-react";
+import { GlassCard } from "@/shared/ui/GlassCard";
+import { Button } from "@/shared/ui/Button";
+import { GradientText } from "@/shared/ui/GradientText";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -26,19 +26,19 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { id: 'dashboard', label: 'Обзор', icon: LayoutDashboard },
-  { id: 'giveaways', label: 'Розыгрыши', icon: Gift, badge: 3 },
-  { id: 'participants', label: 'Участники', icon: Users },
-  { id: 'settings', label: 'Настройки', icon: Settings },
+  { id: "dashboard", label: "Обзор", icon: LayoutDashboard },
+  { id: "giveaways", label: "Розыгрыши", icon: Gift, badge: 3 },
+  { id: "participants", label: "Участники", icon: Users },
+  { id: "settings", label: "Настройки", icon: Settings },
 ];
 
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const [activeNav, setActiveNav] = useState('giveaways');
+  const [activeNav, setActiveNav] = useState("giveaways");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem("auth_token");
     window.location.reload();
   };
 
@@ -61,10 +61,13 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       <motion.aside
         className={`fixed lg:sticky top-0 left-0 h-screen w-72 z-50 lg:z-auto
           transform transition-transform duration-300 ease-in-out
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
-        <GlassCard variant="default" className="h-full rounded-none lg:rounded-r-3xl lg:rounded-l-none border-l-0 lg:border-l border-white/10 p-6 flex flex-col">
+        <GlassCard
+          variant="default"
+          className="h-full rounded-none lg:rounded-r-3xl lg:rounded-l-none border-l-0 lg:border-l border-white/10 p-6 flex flex-col"
+        >
           {/* Logo */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
@@ -73,7 +76,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
               </div>
               <GradientText className="text-xl font-bold">Magnate</GradientText>
             </div>
-            <button 
+            <button
               className="lg:hidden p-2 hover:bg-white/5 rounded-xl transition-colors"
               onClick={() => setSidebarOpen(false)}
             >
@@ -91,16 +94,17 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
                   setSidebarOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group
-                  ${activeNav === item.id 
-                    ? 'bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 border border-violet-500/30 text-white' 
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  ${
+                    activeNav === item.id
+                      ? "bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 border border-violet-500/30 text-white"
+                      : "text-gray-400 hover:text-white hover:bg-white/5"
                   }
                 `}
               >
                 <div className="flex items-center gap-3">
-                  <item.icon 
-                    size={20} 
-                    className={`transition-colors ${activeNav === item.id ? 'text-violet-400' : 'group-hover:text-violet-400'}`} 
+                  <item.icon
+                    size={20}
+                    className={`transition-colors ${activeNav === item.id ? "text-violet-400" : "group-hover:text-violet-400"}`}
                   />
                   <span className="font-medium">{item.label}</span>
                 </div>
@@ -138,7 +142,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
               </div>
               <GradientText className="text-lg font-bold">Magnate</GradientText>
             </div>
-            <button 
+            <button
               className="p-2 hover:bg-white/5 rounded-xl transition-colors"
               onClick={() => setSidebarOpen(true)}
             >
@@ -148,7 +152,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
         </header>
 
         {/* Page content */}
-        <div className="p-4 lg:p-8">
+        <div className="p-4 lg:p-8 min-h-screen bg-gradient-to-br from-gray-950 via-violet-950/20 to-gray-950">
           {children}
         </div>
       </main>
@@ -174,7 +178,9 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
                 <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
                   <LogOut size={24} className="text-red-400" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Выйти из системы?</h3>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Выйти из системы?
+                </h3>
                 <p className="text-gray-400 text-sm mb-6">
                   Вам потребуется снова ввести логин и пароль для входа.
                 </p>
