@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { AdminLayout } from '@/widgets/layout/AdminLayout';
-import { GiveawaysPage } from './pages/admin/GiveawaysPage';
-import { LoginPage } from './pages/auth/LoginPage';
+import { useState, useEffect } from "react";
+import { AdminLayout } from "./widgets/layout/AdminLayout";
+import { GiveawaysPage } from "./pages/admin/GiveawaysPage";
+import { LoginPage } from "./pages/auth/LoginPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     // Проверка токена при загрузке
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem("auth_token");
     setIsAuthenticated(!!token);
     setIsLoading(false);
   }, []);

@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { Plus, Sparkles } from 'lucide-react';
-import { GlassCard, GradientText, Button } from '@/shared/ui';
-import { GiveawayCard } from '@/widgets/giveaway/GiveawayCard';
-import { ParticipantsModal } from '@/features/participants/ui/ParticipantsModal';
-import { mockGiveaways } from '@/features/participants/lib/mockData';
-import type { Giveaway } from '@/entities/giveaway';
+import { useState } from "react";
+import { Plus, Sparkles } from "lucide-react";
+import { GlassCard, GradientText, Button } from "@/shared/ui";
+import { GiveawayCard } from "@/widgets/giveaway/GiveawayCard";
+import { ParticipantsModal } from "@/features/participants/ui/ParticipantsModal";
+import { mockGiveaways } from "@/features/participants/lib/mockData";
+import type { Giveaway } from "@/entities/giveaway";
 
 export const GiveawaysPage = () => {
-  const [selectedGiveaway, setSelectedGiveaway] = useState<Giveaway | null>(null);
+  const [selectedGiveaway, setSelectedGiveaway] = useState<Giveaway | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleViewParticipants = (giveaway: Giveaway) => {
@@ -16,19 +18,19 @@ export const GiveawaysPage = () => {
   };
 
   const handleEdit = (giveaway: Giveaway) => {
-    console.log('Edit giveaway:', giveaway);
+    console.log("Edit giveaway:", giveaway);
   };
 
   const handleDelete = (giveaway: Giveaway) => {
-    console.log('Delete giveaway:', giveaway);
+    console.log("Delete giveaway:", giveaway);
   };
 
   const handleCreate = () => {
-    console.log('Create new giveaway');
+    console.log("Create new giveaway");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-violet-950/20 to-gray-950">
+    <div>
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl" />
@@ -47,11 +49,13 @@ export const GiveawaysPage = () => {
                 РОЗЫГРЫШИ
               </GradientText>
             </div>
-            <p className="text-gray-400">Управление розыгрышами и участниками</p>
+            <p className="text-gray-400">
+              Управление розыгрышами и участниками
+            </p>
           </div>
 
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             size="lg"
             onClick={handleCreate}
             className="hidden sm:inline-flex"
@@ -64,14 +68,32 @@ export const GiveawaysPage = () => {
         {/* Stats Overview */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Всего розыгрышей', value: '5', color: 'from-violet-400 to-purple-500' },
-            { label: 'Активных', value: '3', color: 'from-green-400 to-emerald-500' },
-            { label: 'Участников', value: '21,149', color: 'from-cyan-400 to-blue-500' },
-            { label: 'Призовой фонд', value: '1,012,500 ₽', color: 'from-yellow-400 to-orange-500' },
+            {
+              label: "Всего розыгрышей",
+              value: "5",
+              color: "from-violet-400 to-purple-500",
+            },
+            {
+              label: "Активных",
+              value: "3",
+              color: "from-green-400 to-emerald-500",
+            },
+            {
+              label: "Участников",
+              value: "21,149",
+              color: "from-cyan-400 to-blue-500",
+            },
+            {
+              label: "Призовой фонд",
+              value: "1,012,500 ₽",
+              color: "from-yellow-400 to-orange-500",
+            },
           ].map((stat) => (
             <GlassCard key={stat.label} className="!p-4">
               <p className="text-xs text-gray-400 mb-1">{stat.label}</p>
-              <GradientText className={`text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+              <GradientText
+                className={`text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}
+              >
                 {stat.value}
               </GradientText>
             </GlassCard>

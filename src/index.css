@@ -1,4 +1,12 @@
 @import "tailwindcss";
+@source "../index.html";
+@source "./**/*.{ts,tsx,js,jsx}";
+
+@layer utilities {
+  .test-red {
+    color: red;
+  }
+}
 
 /* Premium Dark Glassmorphic Theme */
 :root {
@@ -18,13 +26,15 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   min-height: 100svh;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
 }
 
 /* Custom scrollbar for glassmorphic theme */
@@ -49,8 +59,12 @@ html, body, #root {
 
 /* Glass animation utilities */
 @keyframes glass-shimmer {
-  0% { background-position: -100% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .glass-shimmer {
