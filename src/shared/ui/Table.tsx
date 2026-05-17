@@ -53,7 +53,7 @@ export const TableHead = ({
   children, 
   className 
 }: { 
-  children: React.ReactNode; 
+  children?: React.ReactNode; 
   className?: string;
 }) => (
   <th className={cn(
